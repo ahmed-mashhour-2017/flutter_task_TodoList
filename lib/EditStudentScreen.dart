@@ -19,10 +19,12 @@ class EditStudentScreenState extends State<EditStudentScreen> {
     IsDone: false,
     CreatedDate: "2022-10-22",
   );
+
   var form = GlobalKey<FormState>();
   SaveForm() async {
     if (form.currentState!.validate()) {
       form.currentState?.save();
+      await api.deleteTask(Task1.ID);
       await api.saveTask(Task1);
       print(Task1.ID);
       print(Task1.Title);
@@ -34,6 +36,9 @@ class EditStudentScreenState extends State<EditStudentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var args =
+        ModalRoute.of(context)?.settings.arguments! as Map<String, Object>;
+    Task1.ID = args['id'] as int;
     return Scaffold(
       appBar: AppBar(
         actions: [
